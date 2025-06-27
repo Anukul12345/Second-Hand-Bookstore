@@ -9,7 +9,6 @@ const Auth = () => {
     <>
     
       <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container">
-        {/* Sign Up */}
         <div className="form-container sign-up-container">
           <form action="#">
             <h2>Create Account</h2>
@@ -26,7 +25,6 @@ const Auth = () => {
           </form>
         </div>
 
-        {/* Sign In */}
         <div className="form-container sign-in-container">
           <form action="#">
             <h2>Sign in</h2>
@@ -44,7 +42,6 @@ const Auth = () => {
           </form>
         </div>
 
-        {/* Overlay */}
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">
