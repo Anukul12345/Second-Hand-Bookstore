@@ -6,9 +6,8 @@ const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
   return (
-    <>
-    
-      <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container">
+    <div className="auth-wrapper">
+      <div className={`auth-container ${isSignUp ? 'right-panel-active' : ''}`} id="container">
         <div className="form-container sign-up-container">
           <form action="#">
             <h2>Create Account</h2>
@@ -17,7 +16,7 @@ const Auth = () => {
               <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
               <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
             </div>
-            <span>or <br /><br />use your email for registration</span>
+            <span>Or use your email for registration</span>
             <input type="text" placeholder="Name" />
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
@@ -33,8 +32,7 @@ const Auth = () => {
               <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
               <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
             </div>
-            <p color='black'>Or</p>
-            <span>use your account</span>
+            <p>Or use your account</p>
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <a href="#">Forgot your password?</a>
@@ -57,7 +55,7 @@ const Auth = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
