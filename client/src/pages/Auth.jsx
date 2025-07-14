@@ -1,55 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Auth.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('http://localhost:8080/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        navigate("/");
+      } else {
+        alert(data.msg);
+      }
+    } catch {
+      alert("Something went wrong");
+    }
+  };
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, password: formData.password })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        navigate("/");
+      } else {
+        alert(data.msg);
+      }
+    } catch {
+      alert("Something went wrong");
+    }
+  };
 
   return (
     <div className="auth-wrapper">
-      <div className={`auth-container ${isSignUp ? 'right-panel-active' : ''}`} id="container">
+      <div className={`auth-container ${isSignUp ? 'right-panel-active' : ''}`}>
         <div className="form-container sign-up-container">
-          <form action="#">
+          <form onSubmit={handleSignUp}>
             <h2>Create Account</h2>
-            <div className="social-container">
-              <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-              <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-              <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-            </div>
-            <span>Or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button>Sign Up</button>
+            <input type="text" name="name" placeholder="Name" onChange={handleChange} required />
+            <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+            <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+            <button type="submit">Sign Up</button>
           </form>
         </div>
 
         <div className="form-container sign-in-container">
-          <form action="#">
+          <form onSubmit={handleSignIn}>
             <h2>Sign in</h2>
-            <div className="social-container">
-              <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-              <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-              <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-            </div>
-            <p>Or use your account</p>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+            <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+            <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+            <button type="submit">Sign In</button>
           </form>
         </div>
 
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">
-              <h2>Read Green, Live Clean!</h2>
-              <p>Give books a second chance—and your wallet a break</p>
+              <h2>Welcome Back!</h2>
+              <p>Login to continue exploring books</p>
               <button className="ghost" onClick={() => setIsSignUp(false)}>Sign In</button>
             </div>
             <div className="overlay-panel overlay-right">
-              <h2>Back to Learn?</h2>
-              <p>Flip through the chapters of your saved shelves</p>
+              <h2>New here?</h2>
+              <p>Create an account to start your journey</p>
               <button className="ghost" onClick={() => setIsSignUp(true)}>Sign Up</button>
             </div>
           </div>

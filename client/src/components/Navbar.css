@@ -3,7 +3,7 @@
   padding: 1rem 1rem;
   position: fixed;
   top: 0;
-  height: auto;
+  height: 100px;
   width: 100%;
   z-index: 1050;
   transition: background-color 0.4s ease, box-shadow 0.3s ease;
